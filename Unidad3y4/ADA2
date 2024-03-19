@@ -1,1 +1,90 @@
+class NodoCola:
+    def __init__(self, valor):
+        self.valor = valor
+        self.siguiente = None
+
+class Cola:
+    def __init__(self):
+        self.primero = None
+        self.ultimo = None
+
+    def encolar(self, valor):
+        nuevo_nodo = NodoCola(valor)
+        if self.ultimo is None:
+            self.primero = nuevo_nodo
+        else:
+            self.ultimo.siguiente = nuevo_nodo
+        self.ultimo = nuevo_nodo
+
+    def desencolar(self):
+        if self.primero is None:
+            return None
+        valor = self.primero.valor
+        self.primero = self.primero.siguiente
+        if self.primero is None:
+            self.ultimo = None
+        return valor
+
+    def esta_vacia(self):
+        return self.primero is None
+
+def ingresar_cola():
+    cola = Cola()
+    num_elementos = int(input("Ingrese el número de elementos en la cola: "))
+    for i in range(num_elementos):
+        elemento = int(input(f"Ingrese el elemento {i+1}: "))
+        cola.encolar(elemento)
+    return cola
+
+def sumar_colas(cola_a, cola_b):
+    if cola_a.esta_vacia() or cola_b.esta_vacia():
+        raise ValueError("Ambas colas deben contener elementos")
+
+    resultado = Cola()
+    cola_a_copia = Cola()
+    cola_b_copia = Cola()
+
+    while not cola_a.esta_vacia():
+        elemento_a = cola_a.desencolar()
+        cola_a_copia.encolar(elemento_a)
+
+    while not cola_b.esta_vacia():
+        elemento_b = cola_b.desencolar()
+        cola_b_copia.encolar(elemento_b)
+
+    while not cola_a_copia.esta_vacia() and not cola_b_copia.esta_vacia():
+        suma = cola_a_copia.desencolar() + cola_b_copia.desencolar()
+        resultado.encolar(suma)
+
+    return resultado
+
+
+print("Ingrese los elementos de la primera cola:")
+cola_a = ingresar_cola()
+
+print("\nIngrese los elementos de la segunda cola:")
+cola_b = ingresar_cola()
+
+
+print("\nCola A:")
+cola_a_copia = Cola()
+while not cola_a.esta_vacia():
+    elemento = cola_a.desencolar()
+    print(elemento)
+    cola_a_copia.encolar(elemento)
+
+print("\nCola B:")
+cola_b_copia = Cola()
+while not cola_b.esta_vacia():
+    elemento = cola_b.desencolar()
+    print(elemento)
+    cola_b_copia.encolar(elemento)
+
+
+cola_resultado = sumar_colas(cola_a_copia, cola_b_copia)
+
+
+print("\nCola Resultado:")
+while not cola_resultado.esta_vacia():
+    print(cola_resultado.desencolar())
 
