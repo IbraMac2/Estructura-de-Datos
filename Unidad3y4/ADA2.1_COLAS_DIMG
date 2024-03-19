@@ -1,0 +1,58 @@
+class Cola:
+    def __init__(self):
+        self.items = []
+
+    def encolar(self, item):
+        self.items.append(item)
+
+    def desencolar(self):
+        if not self.esta_vacia():
+            return self.items.pop(0)
+        else:
+            return None
+
+    def esta_vacia(self):
+        return len(self.items) == 0
+
+class SistemaAtencion:
+    def __init__(self):
+        self.colas = {}
+
+    def agregar_cliente(self, servicio):
+        if servicio not in self.colas:
+            self.colas[servicio] = Cola()
+        numero_atencion = len(self.colas[servicio].items) + 1
+        self.colas[servicio].encolar(numero_atencion)
+        return numero_atencion
+
+    def atender_cliente(self, servicio):
+        if servicio in self.colas and not self.colas[servicio].esta_vacia():
+            return self.colas[servicio].desencolar()
+        else:
+            return None
+
+def main():
+    sistema = SistemaAtencion()
+
+    while True:
+        opcion = input("Ingrese 'C' para agregar un cliente, 'A' para atender un cliente o 'S' para salir: ").upper()
+
+        if opcion == 'S':
+            print("Saliendo del sistema.")
+            break
+        elif opcion == 'C':
+            servicio = input("Ingrese el número de servicio: ")
+            numero_atencion = sistema.agregar_cliente(servicio)
+            print(f"Se agregó al cliente al servicio {servicio}. Número de atención: {numero_atencion}")
+        elif opcion == 'A':
+            servicio = input("Ingrese el número de servicio que desea atender: ")
+            numero_atencion = sistema.atender_cliente(servicio)
+            if numero_atencion:
+                print(f"Atendiendo al cliente {numero_atencion} del servicio {servicio}.")
+            else:
+                print(f"No hay clientes en espera para el servicio {servicio}.")
+        else:
+            print("Opción no válida. Por favor, ingrese 'C', 'A' o 'S'.")
+
+if __name__ == "__main__":
+    main()
