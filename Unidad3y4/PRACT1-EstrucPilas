@@ -1,0 +1,62 @@
+class Pila:
+    def __init__(self, capacidad_maxima):
+        self.items = []
+        self.capacidad_maxima = capacidad_maxima
+        self.tope = 0
+
+    def esta_vacia(self):
+        return self.tope == 0
+
+    def esta_llena(self):
+        return self.tope == self.capacidad_maxima
+
+    def insertar(self, elemento):
+        if not self.esta_llena():
+            self.items.append(elemento)
+            self.tope += 1
+        else:
+            print("Error: la pila está llena")
+
+    def eliminar(self):
+        if not self.esta_vacia():
+            elemento_eliminado = self.items.pop()
+            self.tope -= 1
+            return elemento_eliminado
+        else:
+            print("Error: la pila está vacía")
+            return None
+
+def mostrar_estado_pila(pila):
+    print("Estado de la pila:")
+    print("TOPE =", pila.tope)
+    print("Pila =", pila.items)
+
+def main():
+    pila = Pila(8)
+
+    operaciones = [
+        ("Insertar", "X"),
+        ("Insertar", "Y"),
+        ("Eliminar", "Z"),
+        ("Eliminar", "T"),
+        ("Eliminar", "U"),
+        ("Insertar", "V"),
+        ("Insertar", "W"),
+        ("Eliminar", "p"),
+        ("Insertar", "R")
+    ]
+
+    for operacion, elemento in operaciones:
+        print("\nOperación:", operacion, elemento)
+        if operacion == "Insertar":
+            pila.insertar(elemento)
+        elif operacion == "Eliminar":
+            pila_eliminado = pila.eliminar()
+            if pila_eliminado is not None:
+                print("Elemento eliminado:", pila_eliminado)
+        mostrar_estado_pila(pila)
+
+    print("\nNúmero de elementos en la pila:", pila.tope)
+
+if __name__ == "__main__":
+    main()
